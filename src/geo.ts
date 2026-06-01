@@ -196,41 +196,6 @@ export const COUNTRY_TZ: Record<string, string> = {
   ZW: "Africa/Harare",
 };
 
-/** Common timezone abbreviations → IANA timezone. Order matters: standard
- *  is listed first so toStandardTimeZone resolves stable names. */
-const TZ_ABBREVS: Record<string, string> = {
-  EST: "America/New_York",
-  EDT: "America/New_York",
-  CST: "America/Chicago",
-  CDT: "America/Chicago",
-  MST: "America/Denver",
-  MDT: "America/Denver",
-  PST: "America/Los_Angeles",
-  PDT: "America/Los_Angeles",
-  AKST: "America/Anchorage",
-  AKDT: "America/Anchorage",
-  HST: "Pacific/Honolulu",
-  HAST: "Pacific/Honolulu",
-  GMT: "Etc/UTC",
-  UTC: "Etc/UTC",
-  CET: "Europe/Paris",
-  CEST: "Europe/Paris",
-  EET: "Europe/Athens",
-  EEST: "Europe/Athens",
-  BST: "Europe/London",
-  IST: "Asia/Kolkata",
-  JST: "Asia/Tokyo",
-  AEST: "Australia/Sydney",
-  AEDT: "Australia/Sydney",
-  ACST: "Australia/Adelaide",
-  ACDT: "Australia/Adelaide",
-  AWST: "Australia/Perth",
-  NZST: "Pacific/Auckland",
-  NZDT: "Pacific/Auckland",
-  HKT: "Asia/Hong_Kong",
-  SGT: "Asia/Singapore",
-};
-
 /** Common abbreviations and alternate names → ISO code. */
 const ALIASES: Record<string, string> = {
   usa: "US",
@@ -329,26 +294,12 @@ export function resolveCountryCode(person: {
 }
 
 export function resolveTimeZone(person: {
-  timeZone?: string;
   locationTimeZone?: string;
   locationCountryCode?: string;
   locationCountry?: string;
   location?: string;
   locationCity?: string;
 }): string | null {
-  for (const field of [
-    "timeZone",
-    "locationTimeZone",
-    "location",
-    "locationCountry",
-  ] as const) {
-    const raw = person[field]?.trim();
-    if (raw) {
-      const abbr = raw.toUpperCase();
-      if (TZ_ABBREVS[abbr]) return TZ_ABBREVS[abbr];
-    }
-  }
-  if (person.timeZone) return person.timeZone;
   if (person.locationTimeZone) return person.locationTimeZone;
   if (person.locationCity) {
     const key = person.locationCity.trim().toLowerCase();
@@ -357,4 +308,12 @@ export function resolveTimeZone(person: {
   }
   const code = resolveCountryCode(person);
   return code ? (COUNTRY_TZ[code] ?? null) : null;
+}
+
+export function friendlyTimeZoneName(timeZone: string): string {
+  if (timeZone.startsWith("Etc/")) {
+    return timeZone.split("/")[1];
+  }
+  const parts = timeZone.split("/");
+  return parts[parts.length - 1].replace(/_/g, " ");
 }

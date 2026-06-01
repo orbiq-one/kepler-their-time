@@ -1,11 +1,10 @@
 import { definePlugin, Accessory, Icon, Command } from "@kepler-app/plugin-sdk";
 import type { PluginContext, PluginListItem } from "@kepler-app/plugin-sdk";
-import { resolveCountryCode, resolveTimeZone } from "./geo";
+import { resolveCountryCode, resolveTimeZone, friendlyTimeZoneName } from "./geo";
 
 type TheirTimeUser = {
   name: string;
   xUsername: string;
-  timeZone: string;
   location: string;
   locationCity: string;
   locationCountry: string;
@@ -25,12 +24,16 @@ function countryCodeToFlag(countryCode: string): string {
 }
 
 function localTimeFor(timeZone: string, now: Date): string {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone,
-  }).format(now);
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone,
+    }).format(now);
+  } catch {
+    return "--:--";
+  }
 }
 
 export default definePlugin({
@@ -74,13 +77,6 @@ export default definePlugin({
             title: "X Username",
             kind: "text",
             placeholder: "laur_garden",
-            required: false,
-          },
-          {
-            id: "timeZone",
-            title: "Timezone",
-            kind: "timeZone",
-            placeholder: "EST or America/New_York",
             required: false,
           },
           {
@@ -163,7 +159,8 @@ export default definePlugin({
           );
           const timeZone = resolveTimeZone(person);
           const timeStr = timeZone ? localTimeFor(timeZone, now) : "--:--";
-          const locationStr = person.location || person.timeZone || "";
+          const tzFriendly = timeZone ? friendlyTimeZoneName(timeZone) : "";
+          const locationStr = person.location || tzFriendly || "";
           const subtitleParts = [];
           if (username) subtitleParts.push(`@${username}`);
           if (locationStr) subtitleParts.push(locationStr);
