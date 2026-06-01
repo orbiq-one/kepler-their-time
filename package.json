@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kepler-app/plugin-sdk": "0.2.0"
+    "@kepler-app/plugin-sdk": "file:../kepler-sdk"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
