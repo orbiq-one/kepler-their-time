@@ -1,6 +1,10 @@
 import { definePlugin, Accessory, Icon, Command } from "@kepler-app/plugin-sdk";
 import type { PluginContext, PluginListItem } from "@kepler-app/plugin-sdk";
-import { resolveCountryCode, resolveTimeZone, friendlyTimeZoneName } from "./geo";
+import {
+  resolveCountryCode,
+  resolveTimeZone,
+  friendlyTimeZoneName,
+} from "./geo";
 
 type TheirTimeUser = {
   name: string;
@@ -39,7 +43,7 @@ function localTimeFor(timeZone: string, now: Date): string {
 export default definePlugin({
   metadata: {
     id: "re.leob.TheirTime",
-    name: "Their time",
+    name: "Their Time",
     version: "1.0.0",
     author: "Kepler Team",
     description: "See local times of friends across timezones",
