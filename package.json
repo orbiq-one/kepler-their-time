@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsup && kepler-plugin manifest src/index.ts --out \"$HOME/Library/Application Support/Kepler/Plugins/their-time.keplugin/manifest.json\"",
+    "build": "kepler-plugin bundle src/index.ts --out \"$HOME/Library/Application Support/Kepler/Plugins/their-time.keplugin\" --assets assets",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kepler-app/plugin-sdk": "0.6.0"
+    "@kepler-app/plugin-sdk": "0.9.0"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
