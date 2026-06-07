@@ -211,8 +211,8 @@ export default definePlugin({
           if (aMissing) return 1;
           if (bMissing) return -1;
           return order === "descending"
-            ? b.sortMinutes - a.sortMinutes
-            : a.sortMinutes - b.sortMinutes;
+            ? a.sortMinutes - b.sortMinutes
+            : b.sortMinutes - a.sortMinutes;
         });
         return entries.map((e) => e.item);
       },
