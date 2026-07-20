@@ -1,14 +1,40 @@
 {
   "name": "@kepler-app/their-time-plugin",
   "version": "1.0.0",
+  "description": "See local times of friends across timezones in Kepler.",
   "type": "module",
+  "keywords": [
+    "kepler",
+    "kepler-plugin",
+    "launcher",
+    "timezone"
+  ],
+  "files": [
+    "dist"
+  ],
+  "kepler": {
+    "apiVersion": 1,
+    "manifest": "dist/manifest.json",
+    "entry": "dist/index.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbiq-one/kepler-their-time.git"
+  },
+  "homepage": "https://github.com/orbiq-one/kepler-their-time#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "build": "kepler-plugin bundle src/index.ts --out \"$HOME/Library/Application Support/Kepler/Plugins/their-time.keplugin\" --assets assets",
+    "build": "kepler-plugin bundle src/index.ts --out dist",
+    "install:local": "kepler-plugin bundle src/index.ts --out \"$HOME/Library/Application Support/Kepler/Plugins/their-time.keplugin\"",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build"
   },
   "dependencies": {
-    "@kepler-app/plugin-sdk": "0.9.0"
+    "@kepler-app/plugin-sdk": "1.0.0"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
