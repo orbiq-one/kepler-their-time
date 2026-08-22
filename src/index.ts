@@ -44,7 +44,7 @@ export default definePlugin({
   metadata: {
     id: "re.leob.TheirTime",
     name: "Their Time",
-    version: "1.0.0",
+    version: "1.1.0",
     author: "Kepler Team",
     description: "See local times of friends across timezones",
     icon: Icon.sfSymbol("globe.badge.clock"),
