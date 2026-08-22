@@ -185,13 +185,13 @@ export default definePlugin({
             : Icon.emoji("🌐");
 
           const sortMinutes =
-            timeStr !== "--:--"
-              ? (Number(timeStr.slice(0, 2)) * 60 +
+            timeStr === "--:--"
+              ? Infinity
+              : (Number(timeStr.slice(0, 2)) * 60 +
                   Number(timeStr.slice(3, 5)) -
                   300 +
                   1440) %
-                1440
-              : Infinity;
+                1440;
 
           return {
             item: {
@@ -199,7 +199,7 @@ export default definePlugin({
               title: person.name,
               subtitle: subtitleParts.join(" · "),
               icon: Icon.withBadge(avatarIcon, badgeIcon),
-              accessory: Accessory.text(timeStr),
+              accessory: Accessory.text(timeStr, true),
             },
             sortMinutes,
           };
